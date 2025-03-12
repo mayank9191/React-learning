@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import useCurrencyInfo from "./hooks/useCurrencyInfo"
 
-// import './App.css'
-
-import InputBox from './component/InputBox'
+import { InputBox } from './component'
 
 function App() {
 
@@ -11,7 +9,6 @@ function App() {
   const [from, setFrom] = useState("usd")
   const [to, setTo] = useState("inr")
   const [convertedAmount, setConvertedAmount] = useState(0)
-
 
   const currencyInfo = useCurrencyInfo(from)
 
@@ -24,16 +21,11 @@ function App() {
     setAmount(convertedAmount)
   }
 
-  const convert = () => {
-    setConvertedAmount(amount * currencyInfo[to])
-  }
-
-
-
+  const convert = () => setConvertedAmount((amount * currencyInfo[to]).toFixed(2))
 
   return (
     <>
-      <h1 className='text-3xl bg-orange-500'>Currency app with chai</h1>
+
       <div
         className="w-full h-screen flex flex-wrap justify-center items-center bg-cover bg-no-repeat"
         style={{
@@ -45,7 +37,6 @@ function App() {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                convert()
 
               }}
             >
@@ -54,8 +45,9 @@ function App() {
                   label="From"
                   amount={amount}
                   currencyOptions={options}
-                  onCurrencyChange={() => setAmount(ammount)}
+                  onCurrencyChange={(currency) => setFrom(currency)}
                   selectCurrency={from}
+                  onAmountChange={(amount) => setAmount(amount)}
                 />
               </div>
               <div className="relative w-full h-0.5">
@@ -73,14 +65,15 @@ function App() {
                   label="To"
                   amount={convertedAmount}
                   currencyOptions={options}
-                  onCurrencyChange={() => setTo(currency)}
+                  onCurrencyChange={(currency) => setTo(currency)}
                   selectCurrency={to}
                   amountDisable
 
                 />
               </div>
-              <button type="submit" className="w-full bg-blue-600 text-white px-4 py-3 rounded-lg">
-                Convert
+              <button type="submit" className="w-full bg-blue-600 text-white px-4 py-3 rounded-lg"
+                onClick={() => convert()}>
+                Convert {from.toUpperCase()} to {to.toUpperCase()}
               </button>
             </form>
           </div>

@@ -1,32 +1,22 @@
-// import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-// function useCurrencyInfo(currency) {
 
-//   const [data, setData] = useState({})
-//   useEffect(() => {
-//     fetch(`https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${currency}.json`)
-//       .then((res) => res.json())
-//       .then((res) => setData(res[currency]))
-//       .catch((error) => error)
-//   }, [currency])
 
-//   return data
-// }
+function useCurrencyInfo(currency) {
 
-// export default useCurrencyInfo
+  const [data, setData] = useState({})
+  useEffect(() => {
+    fetch(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${currency}.json`).then((res) => res.json()).then((res) => setData(res[currency]))
+    console.log(data);
 
-async function currencyDetails(from, to, fromAmmount) {
+  }, [currency])
 
-  const res = await fetch(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${from}.json`)
+  return data
 
-  const data = await res.json()
-
-  const price = data[from][to]
-
-  console.log(Math.round(Number(price) * fromAmmount), to)
 }
 
+export default useCurrencyInfo;
 
 
 
-currencyDetails('krw', 'inr', 10000000)
+
