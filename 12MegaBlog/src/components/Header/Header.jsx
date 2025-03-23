@@ -7,8 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function Header() {
-  const auth = useSelector(state => state.auth.status || {});
-  const authStatus = auth.status || false;
+  const authStatus = useSelector((state) => state.auth.status)
 
   const navigate = useNavigate()
 
@@ -29,6 +28,11 @@ export default function Header() {
       active: !authStatus,
     },
     {
+      name: "All Posts",
+      slug: "/all-posts",
+      active: authStatus,
+    },
+    {
       name: 'Add Post',
       slug: "/add-post",
       active: authStatus,
@@ -43,7 +47,7 @@ export default function Header() {
         <nav className="flex">
           <div className="mr-4">
             <Link to='/'>
-              <Logo width="70px" />
+              <Logo width="50px" />
             </Link>
           </div>
 
@@ -58,7 +62,6 @@ export default function Header() {
             ))
             }
             {authStatus && (<li key="logout"><LogoutBtn /></li>)}
-
           </ul>
 
 

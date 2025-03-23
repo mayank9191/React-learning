@@ -34,9 +34,11 @@ function Post() {
   const deletePost = () => {
     if (post) {
       appwriteService.deleteFile(post.featuredImage);
+      appwriteService.deleteDocument(post.$id);
       navigate("/")
     }
   }
+
 
 
   return post ? (

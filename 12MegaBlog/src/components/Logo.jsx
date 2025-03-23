@@ -1,9 +1,14 @@
 import React from "react";
 
 
-function Logo({ width = '100px' }) {
+function Logo({ width }) {
   return (
-    <div>Logo</div>
+    <div>
+      <img
+        width={width}
+        src="https://cdn-icons-png.flaticon.com/512/5339/5339181.png" />
+
+    </div>
   )
 }
 

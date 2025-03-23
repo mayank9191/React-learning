@@ -1,4 +1,4 @@
-import conf from '../conf/conf.js';
+import conf from '../conf/conf';
 import { Client, Account, ID, Databases, Storage, Query } from 'appwrite';
 
 
@@ -8,13 +8,15 @@ export class Service {
   bucket;
 
   constructor() {
-    this.client.setEndpoint(conf.appwriteUrl).setProject(conf.appwriteProjectId);
+    this.client
+      .setEndpoint(conf.appwriteUrl)
+      .setProject(conf.appwriteProjectId);
 
     this.databases = new Databases(this.client);
     this.bucket = new Storage(this.client);
   }
 
-  async createPost({ title, slug, content, feautredImage, status, userId }) {
+  async createPost({ title, slug, content, featuredImage, status, userId }) {
     try {
 
       return await this.databases.createDocument(
@@ -24,7 +26,7 @@ export class Service {
         {
           title,
           content,
-          feautredImage,
+          featuredImage,
           status,
           userId,
         }
@@ -36,7 +38,7 @@ export class Service {
 
   }
 
-  async updatePost(slug, { title, content, feautredImage, status }) {
+  async updatePost(slug, { title, content, featuredImage, status }) {
     try {
       return await this.databases.updateDocument(
         conf.appwriteDatabaseId,
@@ -45,7 +47,7 @@ export class Service {
         {
           title,
           content,
-          feautredImage,
+          featuredImage,
           status,
         }
       )
@@ -77,27 +79,25 @@ export class Service {
       return await this.databases.getDocument(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
-        slug,)
+        slug)
 
     } catch (error) {
       console.log("Appwrite service :: getPost :: error", error)
     }
   }
 
-  async getPosts(queries = [Query.equal("status", ["active"])]) {
+  async getPosts(userId) {
 
     try {
 
       return await this.databases.listDocuments(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
-        [
-          queries
-        ],
+        [Query.equal("status", ["active"]), Query.equal("userId", [userId])]
       )
 
     } catch (error) {
-      console.log("Appwrite service :: getPost :: error", error)
+      console.log("Appwrite service :: getPosts :: error", error)
     }
 
   }
@@ -136,14 +136,11 @@ export class Service {
   getFilePreview(fileId) {
     return this.bucket.getFilePreview(
       conf.appwriteBucketId,
-      fileId,
+      fileId
     )
 
   }
-
-
 }
-
 
 const service = new Service();
 

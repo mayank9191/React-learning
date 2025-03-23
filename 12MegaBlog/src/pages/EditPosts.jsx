@@ -5,7 +5,7 @@ import { Container, PostForm } from '../components'
 
 
 function EditPosts() {
-  const [post, setPosts] = useState({})
+  const [post, setPost] = useState(null)
   const { slug } = useParams()
   const navigate = useNavigate()
 
@@ -13,13 +13,13 @@ function EditPosts() {
     if (slug) {
       appwriteService.getPost(slug).then((posts) => {
         if (posts) {
-          setPosts(posts)
+          setPost(posts)
         }
       })
     } else {
       navigate('/')
     }
-  }, [slug])
+  }, [slug, navigate])
 
 
   return post ? (<div className="py-8">

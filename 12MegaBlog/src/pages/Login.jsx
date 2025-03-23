@@ -2,7 +2,7 @@ import React from "react";
 import { Login as LoginComponent } from "../components";
 
 
-function Signup() {
+function SignIn() {
   return (
     <div className="py-8">
       <LoginComponent />
@@ -12,4 +12,4 @@ function Signup() {
 }
 
 
-export default Signup
+export default SignIn

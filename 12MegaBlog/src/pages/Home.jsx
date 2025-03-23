@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
 import appwriteService from '../appwrite/config'
 import { Container, PostCard } from '../components'
+import { useSelector } from "react-redux";
+
 
 function Home() {
 
   const [posts, setPosts] = useState([])
+  const userData = useSelector((state) => state.auth.userData) || ''
+
 
   useEffect(() => {
-    appwriteService.getPosts().then((posts) => {
+    appwriteService.getPosts(userData.$id).then((posts) => {
       if (posts) {
         setPosts(posts.documents)
       }
     })
   }, [])
+
   if (posts.length === 0) return (
     <div className="w-full py-8 mt-4 text-center">
       <Container>
@@ -21,6 +26,9 @@ function Home() {
             <h1 className="text-2xl font-bold hover:text-gray-500">
               Login to read posts
             </h1>
+            <div class="grid place-items-center">
+              <img src="https://media.giphy.com/avatars/catgrass/fAQZ44ZCAFTy/200h.gif" alt="Centered Image" />
+            </div>
           </div>
         </div>
       </Container>
